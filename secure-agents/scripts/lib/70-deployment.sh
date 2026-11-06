@@ -80,7 +80,7 @@ deploy_frontend() {
         fi
     else
         print_status "Creating new frontend application..." "deployment"
-        oc new-app --name=frontend --strategy=docker --context-dir=frontend --source-secret=git-secret "$GIT_SSH_URL"
+        oc new-app --name=frontend --strategy=docker --context-dir=secure-agents/frontend --source-secret=git-secret "$GIT_SSH_URL"
     fi
     
     # Configure branch filter if specified
@@ -123,7 +123,7 @@ deploy_backend() {
         fi
     else
         print_status "Creating new backend application..." "deployment"
-        oc new-app --name=backend --strategy=docker --context-dir=backend --source-secret=git-secret "$GIT_SSH_URL"
+        oc new-app --name=backend --strategy=docker --context-dir=secure-agents/backend --source-secret=git-secret "$GIT_SSH_URL"
     fi
     
     # Configure branch filter if specified
@@ -369,7 +369,7 @@ spec:
           periodSeconds: 10
         livenessProbe:
           httpGet:
-            path: /v1/sys/health?standbyok=true
+            path: /v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204
             port: 8200
             scheme: HTTP
           initialDelaySeconds: 60
@@ -464,7 +464,7 @@ deploy_mcp() {
         fi
     else
         print_status "Creating new MCP application..." "deployment"
-        oc new-app --name=mcp --strategy=docker --context-dir=mcp --source-secret=git-secret "$GIT_SSH_URL"
+        oc new-app --name=mcp --strategy=docker --context-dir=secure-agents/mcp --source-secret=git-secret "$GIT_SSH_URL"
     fi
     
     # Configure branch filter if specified

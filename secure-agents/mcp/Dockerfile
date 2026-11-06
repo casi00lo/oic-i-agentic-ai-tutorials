@@ -7,7 +7,8 @@ FROM python:3.12-slim
 WORKDIR /app
 
 # Install nginx, supervisor, curl and build dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN sed -i "s|http://deb.debian.org|https://deb.debian.org|g" /etc/apt/sources.list.d/debian.sources && \
+    apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     nginx \
     supervisor \
